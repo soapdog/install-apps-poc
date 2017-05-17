@@ -11,7 +11,7 @@ local utils = require "pl.utils"
 local choco = require "choco"
 local dotfiles = require "dotfiles"
 local log = require "log"
-local chroma = require "chroma"
+local colors = require "colors"
 
 -- api that is exposed to the Cleofile
 local api = {
@@ -39,7 +39,7 @@ else
     log.level = "info"
 end
 
-chroma.magenta.bold("Cleo starting. Processing: " .. cleofile)
+print(colors("%{bright cyan}Cleo %{cyan}starting. Processing: " .. cleofile))
 local f = assert(loadfile(cleofile))
 utils.setfenv(f, api)
 f()

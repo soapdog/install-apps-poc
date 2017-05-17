@@ -24,6 +24,17 @@ function choco.is_choco_installed()
     end
 end
 
+function report(label, package_list)
+  print(colors("%{bluebg bright white}" .. label .. "%{reset}"))
+  for _,v in ipairs(package_list) do
+    if (not v["installed"]) then
+      print(colors("%{bright red} * %{white}package %{cyan underline}" .. v["package"] .. "%{reset bright red} NOT %{white}installed."))
+    else
+      print(colors("%{bright green} * %{white}package %{cyan underline}" .. v["package"] .. "%{reset bright white} installed."))
+    end
+  end
+end
+
 function choco.get_installed_packages()
     local succ, code, out, err = utils.executeex("choco list -lo -r")
 
@@ -125,7 +136,7 @@ function choco.install_packages(packages)
     for i, v in ipairs(packages) do
         choco.log("Installing " .. v .. " %{cyan dim}(" .. i .. "/" .. #packages ..")")
         local mem = collectgarbage("count") * 1024
-        choco.log("Lua memory usage: " .. mem)
+        --choco.log("Lua memory usage: " .. mem)
         local succ, version = choco.install_package(v)
         if (succ) then
             table.insert(result,{package = v, installed = succ, version = version})
@@ -134,7 +145,7 @@ function choco.install_packages(packages)
         end
         collectgarbage()
     end
-    pretty.dump(result)
+    report("report packages installation",result)
     return result
 end
 
@@ -142,7 +153,7 @@ function choco.install_prerelease_packages(packages)
     local result = {}
     for i, v in ipairs(packages) do
         choco.log("Installing %{underline}prerelease%{reset} " .. v .. "%{cyan dim}(" .. i .. "/" .. #packages ..")")
-        choco.log("Lua memory usage: " .. (collectgarbage("count") * 1024))
+        --choco.log("Lua memory usage: " .. (collectgarbage("count") * 1024))
         local succ, version = choco.install_package(v, false, "--pre")
         if (succ) then
             table.insert(result,{package = v, installed = succ, version = version})
@@ -151,7 +162,7 @@ function choco.install_prerelease_packages(packages)
         end
         collectgarbage()
     end
-    pretty.dump(result)
+    report("report prerelease packages installation", result)
     return result
 end
 

@@ -4,10 +4,9 @@ local required_modules_list = {
     "pl.path",
     "pl.lapp",
     "pl.utils",
-    "chroma",
 }
 
-local log = require "log"
+local colors = require "colors"
 local choco = require "choco"
 
 function isModuleAvailable(name)
@@ -28,16 +27,16 @@ end
 local has_error = false
 for _, v in ipairs(required_modules_list) do
     if not isModuleAvailable(v) then
-        log.error("Error: module not found: " .. v)
+        print(colors("%{red}Error: %{white}module not found: " .. v))
         has_error = true
     end
 end
 
 if (not choco.is_choco_installed()) then
-    log.error("Error: chocolatey not installed")
+      print(colors("%{red}Error: %{white}chocolatey not installed"))
 end
 
 if has_error then
-    log.fatal("Please install missing modules with luarocks before using lops")
+    print(colors("%{cyan}Please install missing modules with luarocks before using cleo"))
     os.exit(1)
 end
