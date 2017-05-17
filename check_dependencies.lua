@@ -4,9 +4,7 @@ local required_modules_list = {
     "pl.path",
     "pl.lapp",
     "pl.utils",
-    "ansicolors",
-    "winapi"
-
+    "chroma",
 }
 
 local log = require "log"

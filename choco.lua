@@ -4,12 +4,15 @@ local file = require "pl.file"
 local utils = require "pl.utils"
 local stringx = require "pl.stringx"
 local pretty = require "pl.pretty"
-local log = require "log"
-local win = require "win"
+local colors = require "colors"
 
 stringx.import()
 
 local choco = {}
+
+function choco.log(msg)
+  print(colors("%{bright green}CHOCO:%{white} " .. msg .. "%{reset}"))
+end
 
 function choco.is_choco_installed()
     local succ, code, out, err = utils.executeex("choco -v")
@@ -120,9 +123,9 @@ end
 function choco.install_packages(packages)
     local result = {}
     for i, v in ipairs(packages) do
-        log.info("Installing " .. v .. " (" .. i .. "/" .. #packages ..")")
+        choco.log("Installing " .. v .. " %{cyan dim}(" .. i .. "/" .. #packages ..")")
         local mem = collectgarbage("count") * 1024
-        log.debug("Lua memory usage: " .. mem)
+        choco.log("Lua memory usage: " .. mem)
         local succ, version = choco.install_package(v)
         if (succ) then
             table.insert(result,{package = v, installed = succ, version = version})
@@ -138,8 +141,8 @@ end
 function choco.install_prerelease_packages(packages)
     local result = {}
     for i, v in ipairs(packages) do
-        log.info("Installing prerelease " .. v .. " (" .. i .. "/" .. #packages ..")")
-        log.debug("Lua memory usage: " .. (collectgarbage("count") * 1024))
+        choco.log("Installing %{underline}prerelease%{reset} " .. v .. "%{cyan dim}(" .. i .. "/" .. #packages ..")")
+        choco.log("Lua memory usage: " .. (collectgarbage("count") * 1024))
         local succ, version = choco.install_package(v, false, "--pre")
         if (succ) then
             table.insert(result,{package = v, installed = succ, version = version})

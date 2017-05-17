@@ -6,7 +6,7 @@
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
--- REMARKS: 
+-- REMARKS:
 -- Andre changed this source to output to screen only when outfile is not defined.
 
 local log = { _version = "0.1.0" }
@@ -57,7 +57,7 @@ end
 for i, x in ipairs(modes) do
   local nameupper = x.name:upper()
   log[x.name] = function(...)
-    
+
     -- Return early if we're below the log level
     if i < levels[log.level] then
       return
@@ -69,12 +69,11 @@ for i, x in ipairs(modes) do
 
     -- Output to console (only if no outfile is set)
     if not log.outfile then
-        print(string.format("%s[%-6s%s]%s %s: %s",
+        print(string.format("%s[%-6s%s]%s %s",
                             log.usecolor and x.color or "",
                             nameupper,
                             os.date("%H:%M:%S"),
                             log.usecolor and "\27[0m" or "",
-                            lineinfo,
                             msg))
     end
 
@@ -84,7 +83,7 @@ for i, x in ipairs(modes) do
       local str = string.format("[%-6s%s] %s: %s\n",
                                 nameupper, os.date(), lineinfo, msg)
 
-      if fp then                          
+      if fp then
         fp:write(str)
         fp:close()
       else
