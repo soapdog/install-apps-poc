@@ -1,0 +1,3 @@
+local dotfiles = {}
+
+return dotfiles

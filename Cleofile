@@ -1,0 +1,26 @@
+choco.install_packages {
+    "Firefox",
+    "android-sdk",
+    "git",
+    "visualstudiocode",
+    "filezilla",
+    "putty",
+    "docker-for-windows",
+    "jetbrainstoolbox",
+    "Monosnap",
+    "nodejs",
+    "yarn",
+    "python",
+    "telegram",
+    "racket",
+    "lua53",
+    "lua52",
+    "lua51",
+    "Lua",
+    "Atom",
+}
+
+choco.install_prerelease_packages {
+    "firefox-nightly",
+    "firefox-dev",
+}
